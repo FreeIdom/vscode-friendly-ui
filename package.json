@@ -1,0 +1,92 @@
+{
+	"name": "vscode-friendly-ui",
+	"displayName": "Friendly UI",
+	"description": "A friendly UI customization tool for VSCode that allows custom CSS and JavaScript injection",
+	"version": "0.0.1",
+	"publisher": "FreeIdom",
+	"author": {
+		"name": "FreeIdom"
+	},
+	"engines": {
+		"vscode": "^1.93.0"
+	},
+	"categories": [
+		"Themes",
+		"Other"
+	],
+	"keywords": [
+		"theme",
+		"css",
+		"javascript",
+		"customization",
+		"ui"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/FreeIdom/vscode-friendly-ui"
+	},
+	"bugs": {
+		"url": "https://github.com/FreeIdom/vscode-friendly-ui/issues"
+	},
+	"homepage": "https://github.com/FreeIdom/vscode-friendly-ui#readme",
+	"preview": true,
+	"icon": "images/logo.png",
+	"galleryBanner": {
+		"color": "#EEEEEE",
+		"theme": "light"
+	},
+	"activationEvents": [
+		"onStartupFinished"
+	],
+	"main": "./src/main",
+	"contributes": {
+		"commands": [
+			{
+				"command": "friendly-ui.enable",
+				"title": "Friendly UI: Enable Custom CSS and JS",
+				"category": "Friendly UI"
+			},
+			{
+				"command": "friendly-ui.disable",
+				"title": "Friendly UI: Disable Custom CSS and JS",
+				"category": "Friendly UI"
+			},
+			{
+				"command": "friendly-ui.reload",
+				"title": "Friendly UI: Reload styles",
+				"category": "Friendly UI"
+			}
+		],
+		"configuration": {
+			"title": "Friendly UI",
+			"properties": {
+				"friendly-ui.customCssPath": {
+					"type": "string",
+					"default": "",
+					"description": "Absolute path to your custom CSS file. Use ~ for home directory.",
+					"scope": "application"
+				},
+				"friendly-ui.customJsPath": {
+					"type": "string",
+					"default": "",
+					"description": "Absolute path to your custom JavaScript file. Use ~ for home directory.",
+					"scope": "application"
+				}
+			}
+		}
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.93.0",
+		"@types/node": "^20.0.0"
+	},
+	"dependencies": {},
+	"extensionKind": [
+		"ui"
+	],
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "echo 'No compilation needed'",
+		"lint": "eslint ."
+	},
+	"license": "MIT"
+}
