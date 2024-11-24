@@ -17,14 +17,11 @@ const customCssFile = path.join(appPath, wbDir, "custom.css")
 const customJsFile = path.join(appPath, wbDir, "custom.js")
 const loaderJsFile = path.join(appPath, wbDir, "loader.js")
 
+const configIdentifer = 'friendly-ui'
+
 // Injection markers
 const injectStart = '<!-- FriendlyUI -->'
 const injectEnd = '<!-- End FriendlyUI -->'
-
-// Configuration keys
-const configIdentifer = 'friendly-ui'
-const configCustomCssPath = 'customCssPath'
-const configCustomJsPath = 'customJsPath'
 
 const getProduct = () => {
     delete require.cache[require.resolve(productFile)]
@@ -41,27 +38,32 @@ const computeChecksum = (file) => {
 }
 
 const injectCustomStyle = (css, js, encoding = 'utf8') => {
-    const loaderContent = `(function() {
+    const loaderContent = `(async function() {
         var t = new Date().getTime();
         ${css ? `var link = document.createElement('link');
         link.rel = 'stylesheet';
         link.href = './custom.css?' + t;
         document.head.appendChild(link);` : ''}
-        ${js ? `var script = document.createElement('script');
-        script.src = './custom.js?' + t;
-        document.body.appendChild(script);` : ''}
+        ${js ? `await import('./custom.js')` : ''}
     })();`
     fs.writeFileSync(loaderJsFile, loaderContent)
 
-    const contents = fs.readFileSync(wbHtmlFile, encoding)
-    const injectHtml = `${injectStart}\n<script src="./loader.js"></script>\n${injectEnd}`
+    const contents = fs.readFileSync(bHtmlFile, encoding)
+    const injectHtml = `${injectStart}\n<script src="./loader.js" type="module"></script>\n${injectEnd}`
 
     const regex = new RegExp(`${injectStart}[\\s\\S]*${injectEnd}`)
     const hasInjected = regex.test(contents)
 
-    const newContents = hasInjected
+    let newContents = hasInjected
         ? contents.replace(regex, injectHtml)
         : contents.replace('</html>', `${injectHtml}\n</html>`)
+    
+    const disableWb = getConfig("disableWorkbenchJs")
+    if (disableWb && js) {
+        newContents = newContents.replace(/<script src=".*?workbench\.js".*?><\/script>/, '<!-- $& -->')
+    } else {
+        newContents = newContents.replace(/<!--\s*(<script src=".*?workbench\.js".*?><\/script>)\s*-->/, '$1')
+    }
 
     fs.writeFileSync(wbHtmlFile, newContents)
 }
@@ -72,11 +74,12 @@ const backupFile = (file, origFile) => {
     }
 }
 
+const getConfig = (key) => vscode.workspace.getConfiguration(configIdentifer).get(key)
+
 const getUserCustomPath = () => {
-    const config = vscode.workspace.getConfiguration(configIdentifer)
     const homedir = os.homedir()
-    let cssPath = config.get(configCustomCssPath)
-    let jsPath = config.get(configCustomJsPath)
+    let cssPath = getConfig('customCssPath')
+    let jsPath = getConfig('customJsPath')
 
     // Replace ~ with user's home directory
     cssPath = cssPath && cssPath.replace('~', homedir)
