@@ -44,7 +44,7 @@ const injectCustomStyle = (css, js, encoding = 'utf8') => {
         link.rel = 'stylesheet';
         link.href = './custom.css?' + t;
         document.head.appendChild(link);` : ''}
-        ${js ? `await import('./custom.js')` : ''}
+        ${js ? `await import('./custom.js?' + t)` : ''}
     })();`
     fs.writeFileSync(loaderJsFile, loaderContent)
 
@@ -60,7 +60,7 @@ const injectCustomStyle = (css, js, encoding = 'utf8') => {
     
     const disableWb = getConfig("disableWorkbenchJs")
     if (disableWb && js) {
-        newContents = newContents.replace(/<script src=".*?workbench\.js".*?><\/script>/, '<!-- $& -->')
+        newContents = newContents.replace(/(?<!<!--\s*)<script src=".*?workbench\.js".*?><\/script>/, '<!-- $& -->')
     } else {
         newContents = newContents.replace(/<!--\s*(<script src=".*?workbench\.js".*?><\/script>)\s*-->/, '$1')
     }

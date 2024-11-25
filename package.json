@@ -2,7 +2,7 @@
 	"name": "vscode-friendly-ui",
 	"displayName": "Friendly UI",
 	"description": "A friendly UI customization tool for VSCode that allows custom CSS and JavaScript injection",
-	"version": "0.0.1",
+	"version": "0.0.3",
 	"publisher": "FreeIdom",
 	"author": {
 		"name": "FreeIdom"
