@@ -48,7 +48,7 @@ const injectCustomStyle = (css, js, encoding = 'utf8') => {
     })();`
     fs.writeFileSync(loaderJsFile, loaderContent)
 
-    const contents = fs.readFileSync(bHtmlFile, encoding)
+    const contents = fs.readFileSync(wbHtmlFile, encoding)
     const injectHtml = `${injectStart}\n<script src="./loader.js" type="module"></script>\n${injectEnd}`
 
     const regex = new RegExp(`${injectStart}[\\s\\S]*${injectEnd}`)
