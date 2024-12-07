@@ -13,6 +13,7 @@ A Visual Studio Code extension that allows you to customize your VSCode UI with 
 - 🔄 Manual reload support for style updates
 - 🏠 Support for using `~` to reference home directory in paths
 - 🛡️ Safe backup and restore of original files
+- 🚫 Option to disable VSCode's built-in workbench.js
 
 ## Installation
 
@@ -34,9 +35,16 @@ Add these settings to your VSCode settings.json:
 ```json
 {
     "friendly-ui.customCssPath": "~/path/to/your/custom.css",
-    "friendly-ui.customJsPath": "~/path/to/your/custom.js"
+    "friendly-ui.customJsPath": "~/path/to/your/custom.js",
+    "friendly-ui.disableWorkbenchJs": false
 }
 ```
+
+| Setting | Description |
+|---------|-------------|
+| `customCssPath` | Path to your custom CSS file |
+| `customJsPath` | Path to your custom JavaScript file |
+| `disableWorkbenchJs` | When set to `true`, disables VSCode's built-in workbench.js when custom JS is enabled |
 
 ## Example Custom CSS
 
@@ -56,6 +64,7 @@ Add these settings to your VSCode settings.json:
 
 - The extension requires a VSCode restart when enabled for the first time
 - Use the disable command to revert to original VSCode appearance
+- When `disableWorkbenchJs` is enabled, some built-in VSCode functionality might be affected
 
 ## Contributing
 

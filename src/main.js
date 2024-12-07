@@ -57,7 +57,7 @@ const injectCustomStyle = (css, js, encoding = 'utf8') => {
     let newContents = hasInjected
         ? contents.replace(regex, injectHtml)
         : contents.replace('</html>', `${injectHtml}\n</html>`)
-    
+
     const disableWb = getConfig("disableWorkbenchJs")
     if (disableWb && js) {
         newContents = newContents.replace(/(?<!<!--\s*)<script src=".*?workbench\.js".*?><\/script>/, '<!-- $& -->')
