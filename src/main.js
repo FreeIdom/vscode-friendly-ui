@@ -9,7 +9,7 @@ const appPath = path.join(rootPath, "out")
 const productFile = path.join(rootPath, 'product.json')
 const productOrigFile = `${productFile}.orig.${vscode.version}`
 // Workbench
-const wbDir = 'vs/code/electron-sandbox/workbench/'
+const wbDir = 'vs/code/electron-browser/workbench/'
 const wbHtmlDir = wbDir + 'workbench.html'
 const wbHtmlFile = path.join(appPath, wbHtmlDir)
 const wbHtmlOrigFile = `${wbHtmlFile}.orig.${vscode.version}`
